@@ -1,1 +1,3 @@
-# -2022PCTR_2CArnaiz_Lucia
+# 2022PCTR_2CArnaiz_Lucia
+
+Autora: Lucia Arnaiz López

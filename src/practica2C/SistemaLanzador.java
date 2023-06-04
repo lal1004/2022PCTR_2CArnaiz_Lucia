@@ -1,15 +1,20 @@
 package practica2C;
 
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class SistemaLanzador {
 	
-	 public static void main(String[] args) {
-		 
-		 
-		 
-	 }
+	public  SistemaLanzador() {
+		
+	}
+
+    public static void main(String[] args) {
+
+        Juego nuevaPartida= new Juego();
+
+        for (int i=0; i < Integer.parseInt(args[0]); i++) {
+                Thread enemigoThread = new Thread(new ActividadEnemiga(i, nuevaPartida)); 
+                enemigoThread.start();
+                Thread aliadoThread = new Thread(new ActividadAliada(i, nuevaPartida));
+                aliadoThread.start();
+        }
+    }
 }

@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 
 public class ActividadEnemiga implements Runnable {
 	
-	
-	private int MAXENEMIGOS;//número máximo de enemigos al mismo tiempo
 	private int tipoEnemigo;
 	private IJuego juego;
 	
@@ -21,7 +19,7 @@ public class ActividadEnemiga implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		Random aleatorio = new Random();
-		for (int i = 0; i < MAXENEMIGOS; i ++) {
+		for (int i = 0; i < 20; i ++) {
 			try {
 				juego.generarEnemigo(tipoEnemigo);
 				int tiempoSleep = aleatorio.nextInt(5) * 1000;

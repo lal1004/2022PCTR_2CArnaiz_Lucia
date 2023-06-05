@@ -23,30 +23,45 @@ public class Juego implements IJuego {
 	}
 
 	public synchronized void generarEnemigo(int tipoEnemigo) {
+		if (tipoEnemigo != 0) {
+			// Comprobamos que se pueda generar el enemigo
+			comprobarAntesDeGenerar(tipoEnemigo);
+		}
+
 		// Comprobamos que el enemigo existe antes de generarlo
 		if (contadoresEnemigosTipo.containsKey(tipoEnemigo)) {
 			int numEnemigos = contadoresEnemigosTipo.get(tipoEnemigo);
 			contadoresEnemigosTipo.put(tipoEnemigo, numEnemigos + 1);
 		} else {
 			contadoresEnemigosTipo.put(tipoEnemigo, 1);
+			contadoresEliminadosTipo.put(tipoEnemigo, 0); // Creamos tambien la parte de los que se eliminen
 		}
+
+		contadorEnemigosTotales++;
+
+		checkInvariante();
+		imprimirInfo(tipoEnemigo, "Generado");
+		notifyAll();
 	}
 
 	public synchronized void eliminarEnemigo(int tipoEnemigo) {
 		// Comprobamos que el enemigo existe antes de eliminarlo
-		if (contadoresEnemigosTipo.containsKey(tipoEnemigo)) {
-			int numEnemigos = contadoresEnemigosTipo.get(tipoEnemigo);
-			if (numEnemigos > 1) {
-				contadoresEnemigosTipo.put(tipoEnemigo, numEnemigos - 1);
-			} else {
-				contadoresEnemigosTipo.remove(tipoEnemigo);
-			}
-		}
+		comprobarAntesDeEliminar(tipoEnemigo); // si no se puede, esperará el hilo
+
+		int numEnemigos = contadoresEliminadosTipo.get(tipoEnemigo);
+		contadoresEliminadosTipo.put(tipoEnemigo, numEnemigos + 1);
+
+		contadorEnemigosTotales--;
+
+		checkInvariante();
+		imprimirInfo(tipoEnemigo, "Eliminado");
+		notifyAll();
+
 	}
 
 	private void imprimirInfo(int tipoEnemigo, String cadena) {
 		// Sacado de Parque adaptado para esta
-		System.out.println("Generado enemigo tipo:" + tipoEnemigo);
+		System.out.println(cadena + " enemigo tipo:" + tipoEnemigo);
 		System.out.println("--> Enemigos totales " + contadorEnemigosTotales);
 
 		// Iteramos por todas las puertas e imprimimos sus entradas
@@ -76,10 +91,39 @@ public class Juego implements IJuego {
 	}
 
 	protected void comprobarAntesDeGenerar(int tipoEnemigo) {
+		int enemigoAnterior = tipoEnemigo - 1;
+
+		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear
+		// el siguiente)
+		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || contadorEnemigosTotales <= 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
 	protected void comprobarAntesDeEliminar(int tipoEnemigo) {
+		// Comprobamos que el enemigo que se quiere borrar de verdad existe
+		while (contadoresEnemigosTipo.containsKey(tipoEnemigo) == false || contadoresEliminadosTipo.get(tipoEnemigo) <= 0) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Comprobamos que todavía queden enemigos que se pueden eliminar
+		/*while (contadoresEliminadosTipo.containsKey(tipoEnemigo) == false
+				|| ) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}*/
 
 	}
 

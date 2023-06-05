@@ -8,12 +8,14 @@ public class SistemaLanzador {
 
     public static void main(String[] args) {
 
-        Juego nuevaPartida= new Juego(1);
+    	int cantidadEnemigos = 5;
+        Juego nuevaPartida = new Juego(cantidadEnemigos);
 
-        for (int i=0; i < Integer.parseInt(args[0]); i++) {
+        for (int i=0; i < cantidadEnemigos; i++) {
                 Thread enemigoThread = new Thread(new ActividadEnemiga(i, nuevaPartida)); 
-                enemigoThread.start();
                 Thread aliadoThread = new Thread(new ActividadAliada(i, nuevaPartida));
+
+                enemigoThread.start();
                 aliadoThread.start();
         }
     }

@@ -94,7 +94,7 @@ public class Juego implements IJuego {
 		int enemigoAnterior = tipoEnemigo - 1;
 
 		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear el siguiente)
-		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || (contadorEnemigosTotales >= MAXENEMIGOS || contadorEnemigosTotales < 0)) {
+		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || contadorEnemigosTotales >= MAXENEMIGOS || contadorEnemigosTotales <= 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {

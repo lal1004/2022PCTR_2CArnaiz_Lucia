@@ -10,7 +10,7 @@ public class Juego implements IJuego {
 	private int MAXENEMIGOS;
 	private int MINENEMIGOS = 0;
 
-	public Juego(int MAXENEMIGOS, int MAXTIPOS) {
+	public Juego(int MAXENEMIGOS, int numTipos) {
 
 		// inicializar contadores y constantes
 		this.MAXENEMIGOS = MAXENEMIGOS;
@@ -94,7 +94,7 @@ public class Juego implements IJuego {
 		int enemigoAnterior = tipoEnemigo - 1;
 
 		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear el siguiente)
-		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false && (contadorEnemigosTotales >= MAXENEMIGOS && contadorEnemigosTotales < 0)) {
+		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || (contadorEnemigosTotales >= MAXENEMIGOS || contadorEnemigosTotales < 0)) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -106,7 +106,7 @@ public class Juego implements IJuego {
 
 	protected void comprobarAntesDeEliminar(int tipoEnemigo) {
 		// Comprobamos que el enemigo que se quiere borrar de verdad existe
-		while (contadoresEnemigosTipo.get(tipoEnemigo) <= 0) {
+		while (contadoresEnemigosTipo.containsKey(tipoEnemigo) == false || contadoresEnemigosTipo.get(tipoEnemigo) <= 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {

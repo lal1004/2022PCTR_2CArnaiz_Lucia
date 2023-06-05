@@ -64,7 +64,7 @@ public class Juego implements IJuego {
 		System.out.println(cadena + " enemigo tipo:" + tipoEnemigo);
 		System.out.println("--> Enemigos totales " + contadorEnemigosTotales);
 
-		// Iteramos por todas las puertas e imprimimos sus entradas
+		// Iterar y mostrar la cantidad de enemigos y eliminados por cada tipo
 		for (int p : contadoresEnemigosTipo.keySet()) {
 			System.out.println("----> Enemigos tipo " + p + " : " + contadoresEnemigosTipo.get(p)
 					+ "------ Eliminados :" + contadoresEliminadosTipo.get(p));
@@ -93,8 +93,7 @@ public class Juego implements IJuego {
 	protected void comprobarAntesDeGenerar(int tipoEnemigo) {
 		int enemigoAnterior = tipoEnemigo - 1;
 
-		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear
-		// el siguiente)
+		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear el siguiente)
 		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || contadorEnemigosTotales <= 0) {
 			try {
 				wait();

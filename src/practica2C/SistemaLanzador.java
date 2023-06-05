@@ -2,14 +2,14 @@ package practica2C;
 
 public class SistemaLanzador {
 	
-	public  SistemaLanzador() {
+	public  SistemaLanzador() { //Constructor
 		
 	}
 
     public static void main(String[] args) {
 
-    	int cantidadEnemigos = 5;
-        Juego nuevaPartida = new Juego(cantidadEnemigos);
+    	int cantidadEnemigos = 5; //Número de enemigos que va a generar
+        Juego nuevaPartida = new Juego(cantidadEnemigos); // Instancia de Juego con la cantidad de enemigos especificada arriba
 
         for (int i=0; i < cantidadEnemigos; i++) {
                 Thread enemigoThread = new Thread(new ActividadEnemiga(i, nuevaPartida)); 

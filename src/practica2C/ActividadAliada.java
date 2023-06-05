@@ -18,11 +18,11 @@ public class ActividadAliada implements Runnable {
 	@Override
 	public void run() {
 		Random aleatorio = new Random();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 15; i++) {
 			try {
-				juego.eliminarEnemigo(tipoEnemigo);
-				int tiempoSleep = aleatorio.nextInt(5) * 1000;
-				TimeUnit.MILLISECONDS.sleep(tiempoSleep);
+				juego.eliminarEnemigo(tipoEnemigo); //Elimina un enemigo 
+				int tiempoSleep = aleatorio.nextInt(5) * 1000; // Genera un tiempo de pausa aleatorio (en milisegundos)
+				TimeUnit.MILLISECONDS.sleep(tiempoSleep); // Pausa la ejecución del hilo durante el tiempo especificado arriba
 			} catch (InterruptedException e) {
 				Logger.getGlobal().log(Level.INFO, "Interrumpe la generación de enemigos");
 				Logger.getGlobal().log(Level.INFO, e.toString());

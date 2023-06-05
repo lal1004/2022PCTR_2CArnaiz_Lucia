@@ -28,6 +28,7 @@ public class Juego implements IJuego {
 			comprobarAntesDeGenerar(tipoEnemigo);
 		}
 
+		checkInvariante();
 		// Comprobamos que el enemigo existe antes de generarlo
 		if (contadoresEnemigosTipo.containsKey(tipoEnemigo)) {
 			int numEnemigos = contadoresEnemigosTipo.get(tipoEnemigo);
@@ -39,7 +40,7 @@ public class Juego implements IJuego {
 
 		contadorEnemigosTotales++;
 
-		checkInvariante();
+		
 		imprimirInfo(tipoEnemigo, "Generado");
 		notifyAll();
 	}
@@ -47,13 +48,12 @@ public class Juego implements IJuego {
 	public synchronized void eliminarEnemigo(int tipoEnemigo) {
 		// Comprobamos que el enemigo existe antes de eliminarlo
 		comprobarAntesDeEliminar(tipoEnemigo); // si no se puede, esperará el hilo
-
-		int numEnemigos = contadoresEliminadosTipo.get(tipoEnemigo);
-		contadoresEliminadosTipo.put(tipoEnemigo, numEnemigos + 1);
-
-		contadorEnemigosTotales--;
-
 		checkInvariante();
+		
+		contadoresEnemigosTipo.put(tipoEnemigo, contadoresEnemigosTipo.get(tipoEnemigo) - 1);
+        contadoresEliminadosTipo.put(tipoEnemigo, contadoresEliminadosTipo.get(tipoEnemigo) + 1);
+        contadorEnemigosTotales--;
+
 		imprimirInfo(tipoEnemigo, "Eliminado");
 		notifyAll();
 
@@ -94,7 +94,7 @@ public class Juego implements IJuego {
 		int enemigoAnterior = tipoEnemigo - 1;
 
 		// Comprobamos que el enemigo anterior haya sido creado (sino no se puede crear el siguiente)
-		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false || contadorEnemigosTotales <= 0) {
+		while (contadoresEnemigosTipo.containsKey(enemigoAnterior) == false && (contadorEnemigosTotales >= MAXENEMIGOS && contadorEnemigosTotales < 0)) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -106,7 +106,7 @@ public class Juego implements IJuego {
 
 	protected void comprobarAntesDeEliminar(int tipoEnemigo) {
 		// Comprobamos que el enemigo que se quiere borrar de verdad existe
-		while (contadoresEnemigosTipo.containsKey(tipoEnemigo) == false || contadoresEliminadosTipo.get(tipoEnemigo) <= 0) {
+		while (contadoresEnemigosTipo.get(tipoEnemigo) <= 0) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -114,20 +114,10 @@ public class Juego implements IJuego {
 			}
 		}
 
-		// Comprobamos que todavía queden enemigos que se pueden eliminar
-		/*while (contadoresEliminadosTipo.containsKey(tipoEnemigo) == false
-				|| ) {
-			try {
-				wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
-
 	}
 
 	protected void checkInvariante() {
-		assert contadorEnemigosTotales < MINENEMIGOS : "No puede haber menos enemigos que el mínimo";
+		assert contadorEnemigosTotales <= MINENEMIGOS : "No puede haber menos enemigos que el mínimo";
 		assert contadorEnemigosTotales > MAXENEMIGOS : "No puede haber más enemigos que el máximo";
 
 		int cantidadSumarContadores = sumarContadores();

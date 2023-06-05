@@ -10,7 +10,7 @@ public class Juego implements IJuego {
 	private int MAXENEMIGOS;
 	private int MINENEMIGOS = 0;
 
-	public Juego(int MAXENEMIGOS) {
+	public Juego(int MAXENEMIGOS, int MAXTIPOS) {
 
 		// inicializar contadores y constantes
 		this.MAXENEMIGOS = MAXENEMIGOS;

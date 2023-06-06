@@ -5,6 +5,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Clase ActividadEnemiga
+ * @author Lucía Arnaiz López
+ *
+ */
 public class ActividadEnemiga implements Runnable {
 
 	private int tipoEnemigo;

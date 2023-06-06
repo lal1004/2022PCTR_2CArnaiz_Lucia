@@ -1,5 +1,10 @@
 package practica2C;
 
+/**
+ * Clase SistemaLanzador
+ * @author Lucía Arnaiz López
+ *
+ */
 public class SistemaLanzador {
 	
 	public  SistemaLanzador() { //Constructor

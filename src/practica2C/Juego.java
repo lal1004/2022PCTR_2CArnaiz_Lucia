@@ -2,6 +2,11 @@ package practica2C;
 
 import java.util.*;
 
+/**
+ * Clase Juego. Es la clase principal.
+ * @author Lucía Arnaiz López
+ *
+ */
 public class Juego implements IJuego {
 
 	private int contadorEnemigosTotales;
@@ -39,7 +44,7 @@ public class Juego implements IJuego {
 		}
 
 		contadorEnemigosTotales++;
-
+	
 		
 		imprimirInfo(tipoEnemigo, "Generado");
 		notifyAll();
@@ -79,15 +84,15 @@ public class Juego implements IJuego {
 		Collection<Integer> enemigosCreados = contadoresEnemigosTipo.values();
 		Collection<Integer> enemigosElminados = contadoresEliminadosTipo.values();
 
-		for (Integer valorCreados : enemigosCreados) { // foreach
-			contador += valorCreados;
+		for (Integer valorCreados : enemigosCreados) { // Iteración sobre la colección de enemigos creados
+			contador += valorCreados; // Suma del valor de cada enemigo creado al contador
 		}
 
-		for (Integer valorEliminado : enemigosElminados) {
-			contador -= valorEliminado;
+		for (Integer valorEliminado : enemigosElminados) { // Iteración sobre la colección de enemigos eliminados
+			contador -= valorEliminado; // Resta dwel valor de cada enemigo eliminado al contador
 		}
 
-		return contador;
+		return contador; 
 	}
 
 	protected void comprobarAntesDeGenerar(int tipoEnemigo) {
@@ -117,12 +122,13 @@ public class Juego implements IJuego {
 	}
 
 	protected void checkInvariante() {
-		assert contadorEnemigosTotales <= MINENEMIGOS : "No puede haber menos enemigos que el mínimo";
-		assert contadorEnemigosTotales > MAXENEMIGOS : "No puede haber más enemigos que el máximo";
+		assert contadorEnemigosTotales <= MINENEMIGOS : "No puede haber menos enemigos que el mínimo"; // Verifica que el contador de enemigos totales no sea menor que el mínimo permitido
+		assert contadorEnemigosTotales > MAXENEMIGOS : "No puede haber más enemigos que el máximo"; // Verifica que el contador de enemigos totales no sea mayor que el máximo permitido
 
-		int cantidadSumarContadores = sumarContadores();
 
-		assert cantidadSumarContadores != contadorEnemigosTotales : "Los contadores no coinciden";
+		int cantidadSumarContadores = sumarContadores(); // Obtiene la cantidad sumada de los contadores de enemigos
+
+		assert cantidadSumarContadores != contadorEnemigosTotales : "Los contadores no coinciden"; // Verifica que la cantidad sumada de los contadores no coincida con el contador de enemigos totales
 	}
 
 }
